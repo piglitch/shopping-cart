@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
@@ -8,7 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-let wL = {}
+let wL = []
 
 const useData = () => {
   const [data, setData] = useState(null);
@@ -32,12 +33,9 @@ const useData = () => {
 }
 
 
-const RandomImage = ({wishList, setWishList}) => {
+const Store = ({wishList, setWishList}) => {
   const { data, error, loading } = useData();
-  useEffect(()=>{
-    Object.values(wishList).map(dt => wishList.hasOwnProperty(dt.id) ? {color: 'red'} : {color: 'gray'})
-  }, [wishList])
-
+  
   if (error) return <p className="mt-40">A network error was encountered</p>
   if (loading) return <p className="mt-40">Loading...</p>;
 
@@ -61,29 +59,31 @@ const RandomImage = ({wishList, setWishList}) => {
             }
             subheader={`$${dt.price}`}
           />
+          {/* Wishlist icon */}
           <CardActions disableSpacing className="mt-auto bg-amber-400">
             <IconButton 
-              id={`fav${dt.title}`} 
+              id={`fav${dt.id}`} 
               aria-label="add to favorites" 
-              style={{color: 'gray'}} 
-              onClick={() =>{
-                const ID = dt.id; 
-                const wishButton = document.getElementById(`fav${dt.title}`);
-                if (wL[ID] != true) {
-                  wL[ID] = true;
+              style={wishList.some(item => item.id === dt.id) ? {color: 'red'} : {color: 'gray'}} 
+              onClick={() =>{ 
+                const wishButton = document.getElementById(`fav${dt.id}`);
+                const doesItemExist = wishList.some(item => item.id === dt.id)
+                const currentItem = wishList.filter(item => item.id === dt.id)
+                if (doesItemExist != true) {
+                  const newItem = {id: dt.id, title: dt.title, price: dt.price, listed: true}
+                  wL.push(newItem)
                   wishButton.style.color = 'red';
                   setWishList(wL)
-                  console.log(wL, wishList)
                   return;  
                 }              
                 wishButton.style.color = 'gray';
-                wL[ID] = false;
+                wL.splice(wL.indexOf(currentItem), 1)
                 setWishList(wL);
-                console.log(wL, wishList)
               }}
             >
               <FavoriteIcon />
             </IconButton>
+
             <IconButton style={{color: 'gray'}}>
               <ShoppingCartIcon />
             </IconButton>
@@ -94,8 +94,13 @@ const RandomImage = ({wishList, setWishList}) => {
         </Card>
       ))}
     </div>
-
   )
 }
 
-export default RandomImage;
+Store.propTypes = {
+  wishList: PropTypes.array,
+  setWishList: PropTypes.any,
+}
+
+
+export default Store;
