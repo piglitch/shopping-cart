@@ -96,7 +96,7 @@ const Store = ({wishList, setWishList}) => {
     </div>
   )
 }
-
+// Adding propTypes
 Store.propTypes = {
   wishList: PropTypes.array,
   setWishList: PropTypes.any,
