@@ -113,7 +113,7 @@ function Navbar() {
               </Button>
             ))}
           </Box>
-          <Box className="flex gap-5" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box className="flex justify-end gap-10" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Link to="/wishlist"><FavoriteIcon id='wishlist' /></Link>
             <Link to="/shoppingcart"><ShoppingCartIcon id='cart'/></Link>
           </Box>
