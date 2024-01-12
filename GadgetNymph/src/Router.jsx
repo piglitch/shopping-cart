@@ -11,6 +11,8 @@ import { useState } from "react";
 
 const Router = () => {
   const [wishList, setWishList] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [count, setCount] = useState(0);
 
   const router = createBrowserRouter([
     
@@ -30,7 +32,11 @@ const Router = () => {
           path: '/Store',
           element: <Store 
             wishList={wishList} 
-            setWishList={setWishList}  
+            setWishList={setWishList} 
+            cart={cart}
+            setCart={setCart} 
+            count={count}
+            setCount={setCount}
           />
         },
         {
@@ -42,6 +48,10 @@ const Router = () => {
           element: <WishList 
             wishList={wishList} 
             setWishList={setWishList}
+            cart={cart}
+            setCart={setCart}
+            count={count}
+            setCount={setCount}
           />
         },
         {
