@@ -7,9 +7,11 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Badge from '@mui/material/Badge';
 
 let wL = []
+let tempCart = []
 
 const useData = () => {
   const [data, setData] = useState(null);
@@ -32,13 +34,23 @@ const useData = () => {
   return { data, error, loading };
 }
 
-
-const Store = ({wishList, setWishList}) => {
+const Store = ({wishList, setWishList, cart, setCart, count, setCount}) => {
   const { data, error, loading } = useData();
+  const [showLoading, setShowLoading] = useState(true);
+
+  useEffect(() => {
+    wL = wishList;
+    // Use setTimeout to set a 3-second delay before setting loading to false
+    const timeoutId = setTimeout(() => {
+      setShowLoading(false);
+    }, 2200);
+
+    // Cleanup the timeout to avoid memory leaks
+    return () => clearTimeout(timeoutId);
+  }, [wishList]); 
   
   if (error) return <p className="mt-40">A network error was encountered</p>
-  if (loading) return <p className="mt-40">Loading...</p>;
-
+  if (loading || showLoading) return <div className="mt-5 mr-auto ml-auto"><div id='emptyWishlistsBg' className='pt-10 pl-10 pr- text-center text-black rounded-md ml-auto mr-auto'><span className='text-3xl bg-black'>Wait a second. Will you?</span><img src="https://media.giphy.com/media/WPnkYvU8MEJnr8eNqO/giphy-downsized-large.gif" alt="wait babes" width={480} className='pt-2 mr-auto ml-auto' id='gifStoreLoad' /></div></div>
   return (
     <div id="cardsBg" className="lg:ml-60 lg:mr-60 flex flex-wrap justify-center gap-2 p-5 sm:ml-0 sm:mr-0">
       {data.map((dt) => (
@@ -70,22 +82,46 @@ const Store = ({wishList, setWishList}) => {
                 const doesItemExist = wishList.some(item => item.id === dt.id)
                 const currentItem = wishList.filter(item => item.id === dt.id)
                 if (doesItemExist != true) {
-                  const newItem = {id: dt.id, title: dt.title, price: dt.price, listed: true}
-                  wL.push(newItem)
+                  const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true}
+                  wL.push(newItem);
                   wishButton.style.color = 'red';
-                  setWishList(wL)
+                  setWishList(wL);
+                  console.log(wishList, wL)
                   return;  
                 }              
                 wishButton.style.color = 'gray';
-                wL.splice(wL.indexOf(currentItem), 1)
+                console.log(currentItem)
+                wL = wishList.filter(dtWish => dt.id !== dtWish.id)
                 setWishList(wL);
+                console.log(wishList)
               }}
             >
               <FavoriteIcon />
             </IconButton>
 
-            <IconButton style={{color: 'gray'}}>
-              <ShoppingCartIcon />
+            <IconButton id={`cart${dt.id}`} style={{color: 'gray'}} 
+              onClick={() => {
+
+               // const cartButton = document.getElementById(`cart${dt.id}`);
+                //const doesItemExist = cart.some(item => item.id === dt.id)
+                //const currentItem = cart.filter(item => item.id === dt.id)
+                setCount(count + 1)
+                const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true, qty: count + 1}
+                
+                tempCart.push(newItem);
+                  //cartButton.style.color = 'red';
+                setCart(tempCart);       
+                tempCart = cart.filter(dtCart => dt.id === dtCart.id)
+                setCart(tempCart);
+                console.log(tempCart)
+                document.getElementById(`badge${dt.id}`).innerText = `${newItem.qty}`;
+                console.log(tempCart[tempCart.length-1].qty, dt.id)
+              }}
+            >
+              <Badge color="primary">
+                <ShoppingCartIcon />
+                <span id={`badge${dt.id}`}>{ document.getElementById(`badge${dt.id}`) ? document.getElementById(`badge${dt.id}`).innerText : ''}</span>
+              </Badge>
             </IconButton>
             <IconButton aria-label="share" style={{color: 'gray'}}>
               <ShareIcon />
@@ -100,6 +136,10 @@ const Store = ({wishList, setWishList}) => {
 Store.propTypes = {
   wishList: PropTypes.array,
   setWishList: PropTypes.any,
+  cart: PropTypes.array,
+  setCart: PropTypes.any,
+  count: PropTypes.number,
+  setCount: PropTypes.any,
 }
 
 
