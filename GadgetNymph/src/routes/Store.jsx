@@ -34,7 +34,7 @@ const useData = () => {
   return { data, error, loading };
 }
 
-const Store = ({wishList, setWishList, cart, setCart, count, setCount}) => {
+const Store = ({wishList, setWishList, cart, setCart}) => {
   const { data, error, loading } = useData();
   const [showLoading, setShowLoading] = useState(true);
 
@@ -80,7 +80,6 @@ const Store = ({wishList, setWishList, cart, setCart, count, setCount}) => {
               onClick={() =>{ 
                 const wishButton = document.getElementById(`fav${dt.id}`);
                 const doesItemExist = wishList.some(item => item.id === dt.id)
-                const currentItem = wishList.filter(item => item.id === dt.id)
                 if (doesItemExist != true) {
                   const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true}
                   wL.push(newItem);
@@ -90,7 +89,6 @@ const Store = ({wishList, setWishList, cart, setCart, count, setCount}) => {
                   return;  
                 }              
                 wishButton.style.color = 'gray';
-                console.log(currentItem)
                 wL = wishList.filter(dtWish => dt.id !== dtWish.id)
                 setWishList(wL);
                 console.log(wishList)
@@ -103,24 +101,35 @@ const Store = ({wishList, setWishList, cart, setCart, count, setCount}) => {
               onClick={() => {
 
                // const cartButton = document.getElementById(`cart${dt.id}`);
-                //const doesItemExist = cart.some(item => item.id === dt.id)
-                //const currentItem = cart.filter(item => item.id === dt.id)
-                setCount(count + 1)
-                const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true, qty: count + 1}
-                
+                const doesItemExist = cart.some(item => item.id === dt.id)
+                const currentItem = cart.filter(item => item.id === dt.id)
+                const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true, qty: 1}                
+  
+                if (doesItemExist === true) {
+                  currentItem[0].qty = currentItem[0].qty + 1;  
+                  //console.log('hi', tempCart, currentItem[0].qty)
+                  document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
+                  
+                  return;
+                }
                 tempCart.push(newItem);
-                  //cartButton.style.color = 'red';
                 setCart(tempCart);       
-                tempCart = cart.filter(dtCart => dt.id === dtCart.id)
-                setCart(tempCart);
-                console.log(tempCart)
-                document.getElementById(`badge${dt.id}`).innerText = `${newItem.qty}`;
-                console.log(tempCart[tempCart.length-1].qty, dt.id)
+                //tempCart = cart.filter(dtCart => dt.id === dtCart.id)
+                //setCart(tempCart);
+                //console.log(tempCart, currentItem)
+                if (!currentItem.qty) {
+                  document.getElementById(`badge${dt.id}`).innerText = 1;  
+                  console.log(cart)
+                  //console.log('none')
+                  return;
+                }
+                document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
+                console.log(cart)
               }}
             >
               <Badge color="primary">
                 <ShoppingCartIcon />
-                <span id={`badge${dt.id}`}>{ document.getElementById(`badge${dt.id}`) ? document.getElementById(`badge${dt.id}`).innerText : ''}</span>
+                <span className="text-sm text-red-500" id={`badge${dt.id}`}>{ cart.find(item => item.id === dt.id)?.qty || '' }</span>
               </Badge>
             </IconButton>
             <IconButton aria-label="share" style={{color: 'gray'}}>
@@ -138,8 +147,6 @@ Store.propTypes = {
   setWishList: PropTypes.any,
   cart: PropTypes.array,
   setCart: PropTypes.any,
-  count: PropTypes.number,
-  setCount: PropTypes.any,
 }
 
 
