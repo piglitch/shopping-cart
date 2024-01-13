@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
@@ -9,7 +11,6 @@ import ShareIcon from '@mui/icons-material/Share';
 import ShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 // Gifs import
-import Kate from '../assets/kateUpton.gif';
 import Shush from '../assets/shush.gif';
 import ana from '../assets/anaMoralesKiss.gif';
 
@@ -19,7 +20,7 @@ const WishList = ({wishList, setWishList}) => {
   //  console.log('clicked!');
     if (document.getElementById('gifEmptyWishList').src.endsWith(Shush)) {
       document.getElementById('gifEmptyWishList').src = ana;
-      document.getElementById('noLoadText').innerText = `So, you found me? ;) `
+      document.getElementById('noLoadText').innerText = `So, you found me? Here is a kiss ;)`
       //console.log('click', document.getElementById('gifEmptyWishList').src);
       return;
     }
@@ -30,9 +31,11 @@ const WishList = ({wishList, setWishList}) => {
     <div className="mt-5 mr-auto ml-auto">
       { wishList.length === 0 ?  
         (<div id='emptyWishlistsBg' 
-        className='pt-10 pl-10 pr-10 text-center text-black rounded-md ml-auto mr-auto'
+        className='pt-10 pl-10 pr-10 text-center rounded-md ml-auto mr-auto'
         ><span id='noLoadText' className='text-3xl bg-black'>
         Oops, nothing to see here. Or is there?</span>
+        <br />
+        <span className='text-1xl bg-black'>Go to <span className='underline text-blue-500'><Link to="/Store">Store</Link></span> to add items to the wishlist.</span>
         <img src={Shush} alt="wink" 
           width={480} 
           height={500} 

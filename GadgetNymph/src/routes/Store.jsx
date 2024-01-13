@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
+
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
@@ -97,6 +98,7 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
               <FavoriteIcon />
             </IconButton>
 
+            {/* Cart icon */}  
             <IconButton id={`cart${dt.id}`} style={{color: 'gray'}} 
               onClick={() => {
 
@@ -109,7 +111,6 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
                   currentItem[0].qty = currentItem[0].qty + 1;  
                   //console.log('hi', tempCart, currentItem[0].qty)
                   document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
-                  
                   return;
                 }
                 tempCart.push(newItem);
@@ -127,10 +128,8 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
                 console.log(cart)
               }}
             >
-              <Badge color="primary">
-                <ShoppingCartIcon />
-                <span className="text-sm text-red-500" id={`badge${dt.id}`}>{ cart.find(item => item.id === dt.id)?.qty || '' }</span>
-              </Badge>
+              <ShoppingCartIcon />
+              <span className="text-sm text-red-500" id={`badge${dt.id}`}>{ cart.find(item => item.id === dt.id)?.qty || '' }</span>
             </IconButton>
             <IconButton aria-label="share" style={{color: 'gray'}}>
               <ShareIcon />
