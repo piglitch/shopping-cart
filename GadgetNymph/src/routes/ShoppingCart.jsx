@@ -7,17 +7,19 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ShareIcon from '@mui/icons-material/Share';
-import ShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import Badge from '@mui/material/Badge';
 
 // Gifs import
 import doggo from '../assets/doggo.gif';
-import ana from '../assets/anaMorales.gif';
 
-let tempCart = [];
+let cL = [];
+
 const ShoppingCart = ({cart, setCart}) => {
+  console.log('20:', cart)
   return(
-    <div className="mt-5 mr-auto ml-auto">
+    <div className="mr-auto ml-auto">
     { cart.length === 0 ?
       (<div id='emptyWishlistsBg' 
         className='pt-10 pl-10 pr-10 text-center rounded-md ml-auto mr-auto'
@@ -56,42 +58,72 @@ const ShoppingCart = ({cart, setCart}) => {
                 {/* Cart icon */}  
                 <IconButton id={`cart${dt.id}`} style={{color: 'gray'}} 
                   onClick={() => {
-
-                  // const cartButton = document.getElementById(`cart${dt.id}`);
-                    const doesItemExist = cart.some(item => item.id === dt.id)
+                    console.log('61', dt.pic, dt.image, cart)
+                   // const doesItemExist = cart.some(item => item.id === dt.id)
                     const currentItem = cart.filter(item => item.id === dt.id)
                     const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true, qty: 1}                
       
-                    if (doesItemExist === true) {
+                    if (!currentItem.length !== 0) {
                       currentItem[0].qty = currentItem[0].qty + 1;  
-                      //console.log('hi', tempCart, currentItem[0].qty)
                       document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
-                      
                       return;
                     }
-                    tempCart.push(newItem);
-                    setCart(tempCart);       
-                    //tempCart = cart.filter(dtCart => dt.id === dtCart.id)
-                    //setCart(tempCart);
-                    //console.log(tempCart, currentItem)
-                    if (!currentItem.qty) {
+                    cL.push(newItem);
+                    setCart(cL);       
+                    if (!currentItem.length === 0) {
                       document.getElementById(`badge${dt.id}`).innerText = 1;  
-                      console.log(cart)
-                      //console.log('none')
+                      console.log('75', cart)
                       return;
                     }
                     document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
-                    console.log(cart)
+                    console.log('79', cart)
                   }}
                 >
                   <Badge color="primary">
-                    <ShoppingCartIcon />
-                    <span className="text-sm text-red-500" id={`badge${dt.id}`}>{ cart.find(item => item.id === dt.id)?.qty || '' }</span>
+                    <AddIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton id={`cart${dt.id}`} style={{color: 'gray'}} 
+                  onClick={() => {
+
+                   // const doesItemExist = cart.some(item => item.id === dt.id)
+                    const currentItem = cart.filter(item => item.id === dt.id)
+                    const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true, qty: 1}                
+   
+                    if (currentItem[0].qty === 1) {
+                      const currentItem = cart.filter(item => item.id === dt.id)
+                      console.log('95', currentItem, 1)
+                      cL = cart.filter(dtWish => dt.id !== dtWish.id)
+                      setCart(cL);
+                      console.log('98', cart, cL, 2)  
+                      return;
+                    }
+                    if (currentItem.length !== 0) {
+                      currentItem[0].qty = currentItem[0].qty - 1;  
+                      document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
+                      console.log('104', cart, 3)
+                      return;
+                    }
+                    cL.push(newItem);
+                    setCart(cL);       
+                    if (!currentItem[0].qty) {
+                      document.getElementById(`badge${dt.id}`).innerText = 1;  
+                      console.log('111', cart, 4)
+                      return;
+                    }
+                    document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
+                    console.log('115', cart, 5)
+                  }}
+                >
+                  <Badge color="primary">
+                    <RemoveIcon />
                   </Badge>
                 </IconButton>
                 <IconButton aria-label="share" style={{color: 'gray'}}>
                   <ShareIcon />
                 </IconButton>
+                <span className='ml-28 text-gray-500'>Qty: </span>
+                <span className="ml-1 text-red-500" id={`badge${dt.id}`}>{ cart.find(item => item.id === dt.id)?.qty || '' }</span>
               </CardActions>
             </Card>
           ))}

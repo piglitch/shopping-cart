@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import Badge from '@mui/material/Badge';
 
 let wL = []
 let tempCart = []
@@ -83,6 +82,7 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
                 const doesItemExist = wishList.some(item => item.id === dt.id)
                 if (doesItemExist != true) {
                   const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true}
+                  console.log(newItem)
                   wL.push(newItem);
                   wishButton.style.color = 'red';
                   setWishList(wL);
@@ -92,7 +92,7 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
                 wishButton.style.color = 'gray';
                 wL = wishList.filter(dtWish => dt.id !== dtWish.id)
                 setWishList(wL);
-                console.log(wishList)
+                console.log(dt.image)
               }}
             >
               <FavoriteIcon />
