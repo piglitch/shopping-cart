@@ -13,12 +13,34 @@ import ShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 // Gifs import
 import Shush from '../assets/shush.gif';
 import ana from '../assets/anaMoralesKiss.gif';
+import { useEffect } from 'react';
 
 let wL = [];
 let tempCart = [];
 
 const WishList = ({wishList, setWishList, cart, setCart}) => {
   console.log('21', cart)
+  useEffect(() => {
+    const storedItems = JSON.parse(localStorage.getItem('cart'));
+    if (storedItems) {
+      setCart(storedItems)
+      console.log(storedItems, cart)
+      return;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart))
+    console.log(storedItems)
+  }, []);
+
+  useEffect(() => {
+    const storedWishlistItems = JSON.parse(localStorage.getItem('wishlist'));
+    if (storedWishlistItems) {
+      setWishList(storedWishlistItems)
+      return;
+    }
+    localStorage.setItem('wishlist', JSON.stringify(wishList))
+    console.log(storedWishlistItems)
+  }, []);
+
   const toggleGif = () => {
   //  console.log('clicked!');
     if (document.getElementById('gifEmptyWishList').src.endsWith(Shush)) {
@@ -71,12 +93,14 @@ const WishList = ({wishList, setWishList, cart, setCart}) => {
                 aria-label="add to favorites" 
                 style={{color: 'gray'}} 
                 onClick={() =>{ 
+                  wL = wishList;
                   const wishButton = document.getElementById(`fav${dt.id}`);
                   const currentItem = wishList.filter(item => item.id === dt.id)
                   wishButton.style.color = 'gray';
                   console.log(currentItem)
                   wL = wishList.filter(dtWish => dt.id !== dtWish.id)
                   setWishList(wL);
+                  localStorage.setItem('wishlist', JSON.stringify(wL))
                   console.log(wishList)
                 }}
               >
@@ -91,10 +115,12 @@ const WishList = ({wishList, setWishList, cart, setCart}) => {
                 const currentItem = cart.filter(item => item.id === dt.id)
                 const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.pic, listed: true, qty: 1}                
                 console.log('Tempcart: ', tempCart, cart)
+
                 if (currentItem.length !== 0 ) {
                   currentItem[0].qty = currentItem[0].qty + 1;  
                   console.log(1, tempCart, currentItem, newItem)
                   document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
+                  localStorage.setItem('cart', JSON.stringify(tempCart))
                   return;
                 }      
                 //tempCart = cart.filter(dtCart => dt.id === dtCart.id)
@@ -104,6 +130,7 @@ const WishList = ({wishList, setWishList, cart, setCart}) => {
                   document.getElementById(`badge${dt.id}`).innerText = 1;  
                   tempCart.push(newItem);
                   setCart(tempCart);
+                  localStorage.setItem('cart', JSON.stringify(tempCart))
                   console.log(cart)
                   console.log(2, tempCart, currentItem, newItem)
                   return;

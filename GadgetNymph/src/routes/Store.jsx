@@ -29,10 +29,12 @@ const useData = () => {
     .then((res) => setData(res))
     .catch((err) => setError(err))
     .finally(() => setLoading(false));
+    console.log(data)
   }, []);
   
   return { data, error, loading };
 }
+
 
 const Store = ({wishList, setWishList, cart, setCart}) => {
   const { data, error, loading } = useData();
@@ -48,6 +50,22 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
     // Cleanup the timeout to avoid memory leaks
     return () => clearTimeout(timeoutId);
   }, [wishList]); 
+
+  useEffect(() => {
+    const storedCartItems = JSON.parse(localStorage.getItem('cart'));
+    const storedWishlistItems = JSON.parse(localStorage.getItem('wishlist'));
+    if (storedCartItems) {
+      setCart(storedCartItems)
+      return;
+    }
+    if (storedWishlistItems) {
+      setWishList(storedWishlistItems)
+      return;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart))
+    localStorage.setItem('wishlist', JSON.stringify(wishList))
+    console.log(storedCartItems, storedWishlistItems)
+  }, [])
   
   if (error) return <p className="mt-40">A network error was encountered</p>
   if (loading || showLoading) return <div className="mt-5 mr-auto ml-auto"><div id='emptyWishlistsBg' className='pt-10 pl-10 pr- text-center text-black rounded-md ml-auto mr-auto'><span className='text-3xl bg-black'>Wait a second. Will you?</span><img src="https://media.giphy.com/media/WPnkYvU8MEJnr8eNqO/giphy-downsized-large.gif" alt="wait babes" width={480} className='pt-2 mr-auto ml-auto' id='gifStoreLoad' /></div></div>
@@ -78,6 +96,7 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
               aria-label="add to favorites" 
               style={wishList.some(item => item.id === dt.id) ? {color: 'red'} : {color: 'gray'}} 
               onClick={() =>{ 
+                wL = wishList
                 const wishButton = document.getElementById(`fav${dt.id}`);
                 const doesItemExist = wishList.some(item => item.id === dt.id)
                 if (doesItemExist != true) {
@@ -86,6 +105,7 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
                   wL.push(newItem);
                   wishButton.style.color = 'red';
                   setWishList(wL);
+                  localStorage.setItem('wishlist', JSON.stringify(wL))
                   console.log(wishList, wL)
                   return;  
                 }              
@@ -101,7 +121,7 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
             {/* Cart icon */}  
             <IconButton id={`cart${dt.id}`} style={{color: 'gray'}} 
               onClick={() => {
-
+                tempCart = cart
                // const cartButton = document.getElementById(`cart${dt.id}`);
                 const doesItemExist = cart.some(item => item.id === dt.id)
                 const currentItem = cart.filter(item => item.id === dt.id)
@@ -111,16 +131,19 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
                   currentItem[0].qty = currentItem[0].qty + 1;  
                   //console.log('hi', tempCart, currentItem[0].qty)
                   document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
+                  localStorage.setItem('cart', JSON.stringify(tempCart))
                   return;
                 }
                 tempCart.push(newItem);
-                setCart(tempCart);       
+                setCart(tempCart);   
+                localStorage.setItem('cart', JSON.stringify(tempCart))    
                 //tempCart = cart.filter(dtCart => dt.id === dtCart.id)
                 //setCart(tempCart);
                 //console.log(tempCart, currentItem)
                 if (!currentItem.qty) {
                   document.getElementById(`badge${dt.id}`).innerText = 1;  
                   console.log(cart)
+                  localStorage.setItem('cart', JSON.stringify(tempCart))
                   //console.log('none')
                   return;
                 }

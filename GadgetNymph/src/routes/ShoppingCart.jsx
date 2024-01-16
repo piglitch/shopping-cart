@@ -13,10 +13,25 @@ import Badge from '@mui/material/Badge';
 
 // Gifs import
 import doggo from '../assets/doggo.gif';
+import { useEffect, useState } from 'react';
 
 let cL = [];
 
 const ShoppingCart = ({cart, setCart}) => {
+  const [total, setTotal] = useState(0);
+  useEffect(()=> {
+    setTotal(cart.reduce((acc, item) => acc + item.price * item.qty, 0))
+  }, [cart])
+  useEffect(() => {
+    const storedItems = JSON.parse(localStorage.getItem('cart'));
+    if (storedItems) {
+      setCart(storedItems)
+      return;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart))
+    console.log(storedItems)
+  }, [])
+  
   console.log('20:', cart)
   return(
     <div className="mr-auto ml-auto">
@@ -58,6 +73,7 @@ const ShoppingCart = ({cart, setCart}) => {
                 {/* Cart icon */}  
                 <IconButton id={`cart${dt.id}`} style={{color: 'gray'}} 
                   onClick={() => {
+                    cL = cart
                     console.log('61', dt.pic, dt.image, cart)
                    // const doesItemExist = cart.some(item => item.id === dt.id)
                     const currentItem = cart.filter(item => item.id === dt.id)
@@ -66,12 +82,16 @@ const ShoppingCart = ({cart, setCart}) => {
                     if (!currentItem.length !== 0) {
                       currentItem[0].qty = currentItem[0].qty + 1;  
                       document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
+                      setTotal(cart.reduce((acc, item) => acc + item.price * item.qty, 0));
+                      localStorage.setItem('cart', JSON.stringify(cL))
                       return;
                     }
                     cL.push(newItem);
                     setCart(cL);       
+                    localStorage.setItem('cart', JSON.stringify(cL))
                     if (!currentItem.length === 0) {
                       document.getElementById(`badge${dt.id}`).innerText = 1;  
+                      setTotal(cart.reduce((acc, item) => acc + item.price * item.qty, 0));
                       console.log('75', cart)
                       return;
                     }
@@ -85,7 +105,6 @@ const ShoppingCart = ({cart, setCart}) => {
                 </IconButton>
                 <IconButton id={`cart${dt.id}`} style={{color: 'gray'}} 
                   onClick={() => {
-
                    // const doesItemExist = cart.some(item => item.id === dt.id)
                     const currentItem = cart.filter(item => item.id === dt.id)
                     const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true, qty: 1}                
@@ -95,20 +114,27 @@ const ShoppingCart = ({cart, setCart}) => {
                       console.log('95', currentItem, 1)
                       cL = cart.filter(dtWish => dt.id !== dtWish.id)
                       setCart(cL);
+                      localStorage.setItem('cart', JSON.stringify(cL))
                       console.log('98', cart, cL, 2)  
+                      setTotal(cart.reduce((acc, item) => acc + item.price * item.qty, 0));
                       return;
                     }
                     if (currentItem.length !== 0) {
                       currentItem[0].qty = currentItem[0].qty - 1;  
                       document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
                       console.log('104', cart, 3)
+                      setTotal(cart.reduce((acc, item) => acc + item.price * item.qty, 0));
+                      localStorage.setItem('cart', JSON.stringify(cL))
                       return;
                     }
                     cL.push(newItem);
                     setCart(cL);       
+                    localStorage.setItem('cart', JSON.stringify(cL))
                     if (!currentItem[0].qty) {
                       document.getElementById(`badge${dt.id}`).innerText = 1;  
+                      setTotal(cart.reduce((acc, item) => acc + item.price * item.qty, 0));
                       console.log('111', cart, 4)
+                      localStorage.setItem('cart', JSON.stringify(cL))
                       return;
                     }
                     document.getElementById(`badge${dt.id}`).innerText = `${currentItem[0].qty}`;
@@ -127,6 +153,7 @@ const ShoppingCart = ({cart, setCart}) => {
               </CardActions>
             </Card>
           ))}
+          Total: {total}
       </div>
     }
   </div>
