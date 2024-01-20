@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
@@ -17,11 +20,35 @@ import { useEffect, useState } from 'react';
 
 let cL = [];
 
+function Checkout() {
+  const { enqueueSnackbar } = useSnackbar();
+
+
+  const handleClickVariant = (variant) => () => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar('Your order is placed!', { variant });
+  };
+
+  return (
+    <React.Fragment>
+      <Button onClick={handleClickVariant('success')}>Checkout</Button>
+    </React.Fragment>
+  );
+}
+
 const ShoppingCart = ({cart, setCart}) => {
   const [total, setTotal] = useState(0);
   useEffect(()=> {
+    if (cart.length === 0) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      return;
+    }       
+    document.body.style.overflow = '';  // Reset to default
+    document.documentElement.style.overflow = '';  // Reset to default
     setTotal(cart.reduce((acc, item) => acc + item.price * item.qty, 0))
   }, [cart])
+
   useEffect(() => {
     const storedItems = JSON.parse(localStorage.getItem('cart'));
     if (storedItems) {
@@ -34,24 +61,26 @@ const ShoppingCart = ({cart, setCart}) => {
   
   console.log('20:', cart)
   return(
-    <div className="mr-auto ml-auto">
+    <div>
     { cart.length === 0 ?
       (<div id='emptyWishlistsBg' 
-        className='pt-10 pl-10 pr-10 text-center rounded-md ml-auto mr-auto'
+        className='pt-10 pl-10 pr-10 text-center h-screen rounded-md ml-auto mr-auto'
         ><span id='noLoadText' className='text-3xl bg-black'>
-        Your cart is empty.</span>
+        Your cart is empty. So, here is a dog.</span>
         <br />
         <span className='text-1xl bg-black'>Go to <span className='underline text-blue-500'><Link to="/Store">Store</Link></span> to add items to the cart.</span>
-        <img src={doggo} alt="wink" 
-          width={580} 
-          height={500} 
-          className='pt-2 mr-auto ml-auto' 
+        <img src={doggo} alt="doggo" 
+          className='left-0 right-0 ml-auto mr-auto w-full cursor-pointer absolute bottom-0' 
+          style={{ width: '600px', height: 'auto' }} 
           id='gifEmptyWishList' 
           />
-        </div>) : 
+        </div>) :
+        <div>
+        <h1 className='text-yellow-400 text-3xl font-extrabold w-1/3 p-2 bg-gradient-to-r from-black to-white'>Cart</h1>
+        <div className='flex gap-0'>       
         <div id="cardsBg" className="lg:ml-60 lg:mr-60 flex flex-wrap justify-center gap-2 p-5 sm:ml-0 sm:mr-0">
           {cart.map((dt) => (
-            <Card className="w-72 flex flex-col h-96" key={dt.id}>
+            <Card className="w-72 flex flex-col h-96 drop-shadow-lg" key={dt.id}>
               <img
                 className="mt-16 mx-auto block"
                 src={dt.pic}
@@ -153,7 +182,20 @@ const ShoppingCart = ({cart, setCart}) => {
               </CardActions>
             </Card>
           ))}
-          Total: {total}
+      </div>
+      <div id='total' className='p-5 bg-slate-100 text-black shadow-lg'>
+        <div className='p-5'>Total: ${Math.round(total)}.00
+          <br />
+          <SnackbarProvider maxSnack={3}>
+            <button className='mt-10 p-1 border-slate-400 border-2 rounded-md bg-yellow-400' onClick={() => {
+            //  setCart([])
+              //localStorage.setItem('cart', JSON.stringify([]))
+
+            }}><Checkout /></button>
+          </SnackbarProvider>
+        </div>
+      </div>
+      </div>
       </div>
     }
   </div>

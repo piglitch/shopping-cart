@@ -10,37 +10,66 @@
   font-weight: 400;
 
   color-scheme: light dark;
+  /*
   background-image: url(./assets/f6fdc45b-48c0-402c-8eb5-30067240ed5a.jpeg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-
+  */
+  background-color: white;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-body{
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
+  min-width: 0;
+  min-height: 0;
 }
+
 #emptyWishlistsBg{
   background-image: url('./assets/alex-lee-rWrfmXcO3NU-unsplash.jpg');
   background-position: center;
   background-size: cover;
   color: yellow;
   font-weight: bolder;
-  border: 2px dashed black;
 }
+
 #cardsBg{
-  background: rgb(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
   border-left: 3px solid rgb(255, 255, 255, 0.2);
   border-right: 3px solid rgb(255, 255, 255, 0.2);
   border-bottom: 3px solid rgb(255, 255, 255, 0.2);
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+}
+#homepage{
+  color: black;
+}
+#filled-basic{
+  color: white;
+}
+#total{
+  margin-top: 20px;
+  margin-right: 50px;
+  padding: 20px;
+  width: 70%;
+  max-width: 350px;
+  text-align: center;
+  height: 200px;
+  border: 1px solid rgba(126, 126, 126, 0.050);
+  border-radius: 5px;
+}
+.linkIcons{
+  transform: scale(2.2);
+  cursor: pointer;
+}
+.linkIcons:hover{
+  transition: .5s;
+  fill: #daa520;
 }
 #Navbar{
   position: fixed;

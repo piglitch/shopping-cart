@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 
+import ana from '../assets/oneSec.gif';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
@@ -18,7 +19,8 @@ const useData = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  useEffect(() => { 
+
     fetch('https://fakestoreapi.com/products', {mode: "cors"})
     .then((res) => {
       if (!res.ok) {
@@ -46,12 +48,23 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
     const timeoutId = setTimeout(() => {
       setShowLoading(false);
     }, 2200);
-
     // Cleanup the timeout to avoid memory leaks
     return () => clearTimeout(timeoutId);
   }, [wishList]); 
 
+  useEffect(()=>{
+    if (showLoading) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      return;
+    }       
+    document.body.style.overflow = '';  // Reset to default
+    document.documentElement.style.overflow = '';  // Reset to default
+
+  }, [showLoading])
+
   useEffect(() => {
+ // Reset to default
     const storedCartItems = JSON.parse(localStorage.getItem('cart'));
     const storedWishlistItems = JSON.parse(localStorage.getItem('wishlist'));
     if (storedCartItems) {
@@ -68,11 +81,17 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
   }, [])
   
   if (error) return <p className="mt-40">A network error was encountered</p>
-  if (loading || showLoading) return <div className="mt-5 mr-auto ml-auto"><div id='emptyWishlistsBg' className='pt-10 pl-10 pr- text-center text-black rounded-md ml-auto mr-auto'><span className='text-3xl bg-black'>Wait a second. Will you?</span><img src="https://media.giphy.com/media/WPnkYvU8MEJnr8eNqO/giphy-downsized-large.gif" alt="wait babes" width={480} className='pt-2 mr-auto ml-auto' id='gifStoreLoad' /></div></div>
+  if (loading || showLoading) return <div className="h-screen">
+      <div id='emptyWishlistsBg' className='pt-10 text-center text-black rounded-md ml-auto mr-auto'>
+        <span className='text-3xl bg-black'>Wait a second. Will you?</span>
+        <img src={ana} alt="wait" 
+        width={650} className='pt-2 mr-auto ml-auto' id='gifStoreLoad' />
+      </div>
+    </div>
   return (
     <div id="cardsBg" className="lg:ml-60 lg:mr-60 flex flex-wrap justify-center gap-2 p-5 sm:ml-0 sm:mr-0">
       {data.map((dt) => (
-        <Card className="w-72 flex flex-col h-96" key={dt.id}>
+        <Card className="w-72 flex flex-col h-96 drop-shadow-lg" key={dt.id}>
           <img
             className="mt-16 mx-auto block"
             src={dt.image}
@@ -112,6 +131,7 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
                 wishButton.style.color = 'gray';
                 wL = wishList.filter(dtWish => dt.id !== dtWish.id)
                 setWishList(wL);
+                localStorage.setItem('wishlist', JSON.stringify(wL))
                 console.log(dt.image)
               }}
             >

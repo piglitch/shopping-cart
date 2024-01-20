@@ -7,7 +7,7 @@ import Store from "./routes/Store";
 import About from "./routes/About";
 import WishList from "./routes/Wishlist";
 import ShoppingCart from "./routes/ShoppingCart";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Router = () => {
   const [wishList, setWishList] = useState([]);

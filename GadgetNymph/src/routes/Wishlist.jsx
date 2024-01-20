@@ -21,6 +21,14 @@ let tempCart = [];
 const WishList = ({wishList, setWishList, cart, setCart}) => {
   console.log('21', cart)
   useEffect(() => {
+    if (wishList.length === 0) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      return;
+    }       
+    document.body.style.overflow = '';  // Reset to default
+    document.documentElement.style.overflow = '';  // Reset to default
+
     const storedItems = JSON.parse(localStorage.getItem('cart'));
     if (storedItems) {
       setCart(storedItems)
@@ -29,7 +37,7 @@ const WishList = ({wishList, setWishList, cart, setCart}) => {
     }
     localStorage.setItem('cart', JSON.stringify(cart))
     console.log(storedItems)
-  }, []);
+  }, [wishList]);
 
   useEffect(() => {
     const storedWishlistItems = JSON.parse(localStorage.getItem('wishlist'));
@@ -51,27 +59,28 @@ const WishList = ({wishList, setWishList, cart, setCart}) => {
     document.getElementById('gifEmptyWishList').src = Shush;
   }
   return(
-    <div className="mr-auto ml-auto">
-      { wishList.length === 0 ?  
+    <div>
+      { wishList.length === 0 ?   
         (<div id='emptyWishlistsBg' 
-        className='pt-10 pl-10 pr-10 text-center rounded-md ml-auto mr-auto'
+        className='pt-10 pl-10 pr-10 h-screen flex-col text-center'
         ><span id='noLoadText' className='text-3xl bg-black'>
         Oops, nothing to see here. Or is there?</span>
         <br />
         <span className='text-1xl bg-black'>Go to <span className='underline text-blue-500'><Link to="/Store">Store</Link></span> to add items to the wishlist.</span>
         <img src={Shush} alt="wink" 
-          width={480} 
-          height={500} 
-          className='pt-2 mr-auto ml-auto cursor-pointer' 
+          className='left-0 right-0 ml-auto mr-auto w-full cursor-pointer absolute bottom-0' 
+          style={{ width: '600px', height: 'auto' }}
           id='gifEmptyWishList' 
           onClick={toggleGif} 
           />
         </div>) : 
+        <div>
+        <h1 className='text-yellow-400 text-3xl font-extrabold w-full p-2 bg-gradient-to-r from-black to-white'>Wishlist</h1>
         <div id="cardsBg" className="lg:ml-60 lg:mr-60 flex flex-wrap justify-center gap-2 p-5 sm:ml-0 sm:mr-0">
         {wishList.map((dt) => (
-          <Card className="w-72 flex flex-col h-96" key={dt.id}>
+          <Card className="w-72 flex flex-col h-96 drop-shadow-lg" key={dt.id}>
             <img
-              className="mt-16 mx-auto block"
+              className="mx-auto block"
               src={dt.pic}
               height={80}
               width={70}
@@ -148,6 +157,7 @@ const WishList = ({wishList, setWishList, cart, setCart}) => {
             </CardActions>
           </Card>
         ))}
+      </div>
       </div>
       }
     </div>
