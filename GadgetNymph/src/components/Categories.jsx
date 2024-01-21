@@ -28,7 +28,7 @@ export default function ActiveLastBreadcrumb() {
           Women's clothing
         </Link>
         <Link className={currentPathname === '/category/jewelery' ? 'underline' : 'hover:underline'} to="/category/jewelery">
-          Jewelries
+          Jeweleries
         </Link>
     </div>
   );
