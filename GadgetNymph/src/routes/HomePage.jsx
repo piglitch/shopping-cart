@@ -19,8 +19,6 @@ const useData = () => {
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-        document.body.style.overflow = ''; 
-        document.documentElement.style.overflow = '';
       fetch('https://fakestoreapi.com/products', {mode: "cors"})
       .then((res) => {
         if (!res.ok) {
@@ -89,7 +87,7 @@ const Home = () => {
         <div id="homepage" className='md:ml-auto md:mr-auto'>
             {/* Featured Section */}
             <h1 className='text-4xl font-extrabold text-black w-full p-2 bg-gradient-to-r from-yellow-300 to-white drop-shadow-md'>Featured</h1>
-            <section className="featured flex justify-center gap-10 mt-10 p-24">
+            <section className="featured flex justify-center gap-10 mt-10 p-0 overflow-x-auto sm:p-24">
                 <img 
                     src={data[0].image}
                     width={250}
