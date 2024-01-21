@@ -88,7 +88,7 @@ const Home = () => {
     return (
         <div id="homepage" className='md:ml-auto md:mr-auto'>
             {/* Featured Section */}
-            <h1 className='text-4xl font-extrabold text-black w-1/3 p-2 bg-gradient-to-r from-yellow-300 to-white'>Featured</h1>
+            <h1 className='text-4xl font-extrabold text-black w-full p-2 bg-gradient-to-r from-yellow-300 to-white drop-shadow-md'>Featured</h1>
             <section className="featured flex justify-center gap-10 mt-10 p-24">
                 <img 
                     src={data[0].image}
@@ -113,17 +113,19 @@ const Home = () => {
                 {/* Add your featured content here */}
             </section>
             {/* Top Brands Section */}
-            <h1 className='text-4xl font-extrabold text-black w-1/3 p-2 bg-gradient-to-r from-yellow-300 to-white mt-5'>Top Brands</h1>
-            <section className='p-24'>
+            <h1 className='text-4xl font-extrabold text-black w-full p-2 bg-gradient-to-r from-yellow-300 drop-shadow-md to-white mt-5'>Top Brands</h1>
+            <section className='sm:p-24'>
               <CompanyLogos />
             </section>
             {/* Sign Up Section */}
-            <section className="bg-slate-900 h-72 w-full mt-10 text-white">
-                <div className='p-10 font-thin'>Unlock the best deals and stay ahead of the curve on our latest products! Sign up now to receive exclusive updates, special promotions, and irresistible discounts delivered straight to your inbox. Don't miss out on the opportunity to be the first to know about our newest releases and enjoy fantastic savings. Simply enter your email below and treat yourself to a world of exciting products and unbeatable discounts!</div>
-                <div className='flex justify-center mt-5'>
-                    <input id='emailInput' type="email" placeholder='Your email' className='text-white bg-transparent border p-2 w-1/3'/>
+            <section className="bg-slate-900 h-40 w-full mt-10 text-white sm:h-72">
+                <div className='p-10 font-thin hidden sm:block'>
+                  Unlock the best deals and stay ahead of the curve on our latest products! Sign up now to receive exclusive updates, special promotions, and irresistible discounts delivered straight to your inbox. Don't miss out on the opportunity to be the first to know about our newest releases and enjoy fantastic savings. Simply enter your email below and treat yourself to a world of exciting products and unbeatable discounts!
+                </div>
+                <div className='flex justify-center sm:mt-0'>
+                    <input id='emailInput' type="email" placeholder='Your email' className='text-white bg-transparent border mt-12 p-2 w-1/3 sm:mt-0'/>
                     <SnackbarProvider maxSnack={3}>
-                        <button id='signupbtn' className='font-thin ml-5 hover:bg-slate-700 p-2 w-1/6'>
+                        <button id='signupbtn' className='font-thin ml-5 hover:bg-slate-700 p-2 w-1/6 mt-12 sm:mt-0'>
                             <Sub />
                         </button>
                     </SnackbarProvider>                    

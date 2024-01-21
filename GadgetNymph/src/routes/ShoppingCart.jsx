@@ -76,8 +76,9 @@ const ShoppingCart = ({cart, setCart}) => {
           />
         </div>) :
         <div>
-        <h1 className='text-yellow-400 text-3xl font-extrabold w-1/3 p-2 bg-gradient-to-r from-black to-white'>Cart</h1>
-        <div className='flex gap-0'>       
+         <h1 className='text-6xl font-extrabold text-yellow-400 w-full p-2 bg-gradient-to-r from-black to-white'>
+            Cart
+          </h1>        <div className='flex gap-0'>       
         <div id="cardsBg" className="lg:ml-60 lg:mr-60 flex flex-wrap justify-center gap-2 p-5 sm:ml-0 sm:mr-0">
           {cart.map((dt) => (
             <Card className="w-72 flex flex-col h-96 drop-shadow-lg" key={dt.id}>

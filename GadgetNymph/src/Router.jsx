@@ -2,12 +2,15 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import ErrorPage from "./routes/ErrorPage"
 import Root from "./routes/Root";
-import Random from "./routes/Random";
 import Store from "./routes/Store";
 import About from "./routes/About";
 import WishList from "./routes/Wishlist";
 import ShoppingCart from "./routes/ShoppingCart";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Electronics from "./routes/ElectronicsPage";
+import MensClothing from "./routes/Men'sClothing";
+import Jeweleries from "./routes/Jeweleries";
+import WomensClothing from "./routes/WomensClothing";
 
 const Router = () => {
   const [wishList, setWishList] = useState([]);
@@ -21,12 +24,54 @@ const Router = () => {
       element: <Root 
         wishList={wishList}
         setWishList={setWishList}
+        cart={cart}
+        setCart={setCart} 
       />,
       errorElement: <ErrorPage />,
       children: [
         {
-          path: '/category',
-          element: <Random />,
+          path: '/category/electronics',
+          element: <Electronics 
+            wishList={wishList} 
+            setWishList={setWishList} 
+            cart={cart}
+            setCart={setCart} 
+            count={count}
+            setCount={setCount}
+          />,
+        },
+        {
+          path: '/category/mensclothing',
+          element: <MensClothing 
+            wishList={wishList} 
+            setWishList={setWishList} 
+            cart={cart}
+            setCart={setCart} 
+            count={count}
+            setCount={setCount}
+          />,
+        },
+        {
+          path: '/category/womensclothing',
+          element: <WomensClothing 
+            wishList={wishList} 
+            setWishList={setWishList} 
+            cart={cart}
+            setCart={setCart} 
+            count={count}
+            setCount={setCount}
+          />,
+        },
+        {
+          path: '/category/jewelery',
+          element: <Jeweleries 
+            wishList={wishList} 
+            setWishList={setWishList} 
+            cart={cart}
+            setCart={setCart} 
+            count={count}
+            setCount={setCount}
+          />,
         },
         {
           path: '/Store',

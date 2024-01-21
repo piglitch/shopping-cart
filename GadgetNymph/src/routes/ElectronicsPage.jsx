@@ -38,9 +38,10 @@ const useData = () => {
 }
 
 
-const Store = ({wishList, setWishList, cart, setCart}) => {
+const Electronics = ({wishList, setWishList, cart, setCart}) => {
   const { data, error, loading } = useData();
   const [showLoading, setShowLoading] = useState(true);
+  const [categoryData, setCategoryData] = useState([])
 
   useEffect(() => {
     wL = wishList;
@@ -62,16 +63,25 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
     document.documentElement.style.overflow = '';  // Reset to default
 
   }, [showLoading])
-
+  useEffect(() => {
+    if (!loading) {      
+      setCategoryData(data.filter(item => item.category === 'electronics'))
+      console.log(categoryData)      
+      return;
+    }
+  }, [loading])
   useEffect(() => {
  // Reset to default
     const storedCartItems = JSON.parse(localStorage.getItem('cart'));
     const storedWishlistItems = JSON.parse(localStorage.getItem('wishlist'));
+    console.log(storedCartItems, storedWishlistItems)
     if (storedCartItems) {
       setCart(storedCartItems)
+      console.log(storedCartItems)
     }
     if (storedWishlistItems) {
       setWishList(storedWishlistItems)
+      console.log(storedWishlistItems)
     }
     else{
       localStorage.setItem('cart', JSON.stringify(cart))
@@ -88,13 +98,13 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
         width={650} className='pt-2 mr-auto ml-auto' id='gifStoreLoad' />
       </div>
     </div>
+
   return (
     <div>
-      <h1 className='text-6xl font-extrabold text-yellow-400 w-full p-2 bg-gradient-to-r from-black to-white'>
-        Store
-        </h1>  
+      <h1 className='text-6xl font-extrabold text-black w-full p-2 bg-gradient-to-r from-yellow-300 to-white'>Electronics</h1>
+  
       <div id="cardsBg" className="lg:ml-60 lg:mr-60 flex flex-wrap justify-center gap-2 p-5 sm:ml-0 sm:mr-0">
-        {data.map((dt) => (
+        {categoryData.map((dt) => (
           <Card className="w-72 flex flex-col h-96 drop-shadow-lg" key={dt.id}>
             <img
               className="mt-16 mx-auto block"
@@ -122,6 +132,7 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
                   wL = wishList
                   const wishButton = document.getElementById(`fav${dt.id}`);
                   const doesItemExist = wishList.some(item => item.id === dt.id)
+                  console.log(doesItemExist)
                   if (doesItemExist != true) {
                     const newItem = {id: dt.id, title: dt.title, price: dt.price, pic: dt.image, listed: true}
                     console.log(newItem)
@@ -186,11 +197,10 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
         ))}
       </div>
     </div>
-      
   )
 }
 // Adding propTypes
-Store.propTypes = {
+Electronics.propTypes = {
   wishList: PropTypes.array,
   setWishList: PropTypes.any,
   cart: PropTypes.array,
@@ -198,4 +208,4 @@ Store.propTypes = {
 }
 
 
-export default Store;
+export default Electronics;

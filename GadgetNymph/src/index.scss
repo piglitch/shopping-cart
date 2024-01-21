@@ -80,6 +80,17 @@ html, body {
     color: #daa520;
   }
 }
+.underlined {
+  border-bottom: 3px solid red;
+}
+.cartClicked{
+  color: greenyellow;
+  border-bottom: 3px solid red;
+}
+.wishListClicked{
+  border-bottom: 3px solid aqua;
+  color: rgb(253, 66, 113);
+}
 #wishlist:hover{
   transition: 0.2s;
   color: #daa520;
@@ -97,3 +108,7 @@ html, body {
 #categories{
   color: white;
 }
+/* Add this CSS to your stylesheets */
+
+
+
