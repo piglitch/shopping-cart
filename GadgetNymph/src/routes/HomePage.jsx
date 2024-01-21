@@ -87,7 +87,7 @@ const Home = () => {
         <div id="homepage" className='md:ml-auto md:mr-auto'>
             {/* Featured Section */}
             <h1 className='text-4xl font-extrabold text-black w-full p-2 bg-gradient-to-r from-yellow-300 to-white drop-shadow-md'>Featured</h1>
-            <section className="featured flex justify-center gap-10 mt-10 p-0 overflow-x-auto sm:p-24">
+            <section className="featured flex justify-center gap-10 mt-10 p-0 sm:p-24">
                 <img 
                     src={data[0].image}
                     width={250}
