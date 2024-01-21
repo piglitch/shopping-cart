@@ -89,7 +89,7 @@ const Router = () => {
           element: <About />
         },
         {
-          path: '/wishlist',
+          path: '/Wishlist',
           element: <WishList 
             wishList={wishList} 
             setWishList={setWishList}
@@ -100,7 +100,7 @@ const Router = () => {
           />
         },
         {
-          path: '/shoppingcart',
+          path: '/Cart',
           element: <ShoppingCart 
             cart={cart}
             setCart={setCart} 

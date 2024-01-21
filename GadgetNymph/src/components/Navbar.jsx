@@ -18,6 +18,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 const pages = ['Home', 'Store', 'About'];
+const Lists = ['Home', 'Store', 'About', 'Cart', 'Wishlist']
 
 function Navbar({ wishList, setWishList, cart, setCart }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -81,7 +82,7 @@ function Navbar({ wishList, setWishList, cart, setCart }) {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {Lists.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     { page === 'Home' ? <Link to="/">{page}</Link> : <Link to={`/${page}`}>{page}</Link>} 
