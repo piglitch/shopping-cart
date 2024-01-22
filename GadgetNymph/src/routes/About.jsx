@@ -26,7 +26,7 @@ const About = () => {
             </p>
             <p className="text-lg leading-relaxed mb-4">
               The frontend of <span className="text-red-500">Web</span>
-              <span className="text-white">Nymph</span> is built using <strong className="text-yellow-400">React.js</strong>, a powerful and declarative JavaScript library. It employs <strong className="text-yellow-400">React PropTypes</strong> for type-checking to ensure robust code and a smoother development process. The styling is achieved with <strong className="text-yellow-400">Tailwind CSS</strong> and <strong className="text-yellow-400">SCSS</strong> as a postprocessor, offering a scalable and maintainable styling solution.
+              <span className="text-white">Nymph</span> is built using <strong className="text-yellow-400">React.js</strong>, a powerful and declarative JavaScript library. It employs <strong className="text-yellow-400">React PropTypes</strong> for type-checking to ensure robust code and a smoother development process. The styling is achieved with <strong className="text-yellow-400">Tailwind CSS</strong> and <strong className="text-yellow-400">SCSS</strong> as a preprocessor, offering a scalable and maintainable styling solution.
             </p>
             <p className="text-lg leading-relaxed mb-4">
               To enhance the user interface, the project utilizes components and icons from <strong className="text-yellow-400">Material-UI (MUI)</strong>. The build process is streamlined with <strong className="text-yellow-400">Vite</strong> as the build tool, providing fast and efficient development and production builds.
