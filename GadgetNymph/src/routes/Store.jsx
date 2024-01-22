@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 
 import ana from '../assets/oneSec.gif';
+import SearchIcon from '@mui/icons-material/Search';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
@@ -33,14 +34,36 @@ const useData = () => {
     .finally(() => setLoading(false));
     console.log(data)
   }, []);
+
   
-  return { data, error, loading };
+  return { data, error, loading, setData };
 }
 
+// So that the searchBar keeps its width after being clicked.
+document.body.addEventListener('click', (e) => {
+  if (!document.getElementById('searchBar').contains(e.target) && 
+      !document.getElementById('searchStore').contains(e.target) &&
+      document.getElementById('searchIcon') != (e.target)
+      ) {
+    document.getElementById('searchBar').classList.remove('searchBar-active');
+    return;
+  }  
+});
 
 const Store = ({wishList, setWishList, cart, setCart}) => {
-  const { data, error, loading } = useData();
+  const { data, error, loading, setData } = useData();
+  const [defaultData, setDefaultData] = useState()
   const [showLoading, setShowLoading] = useState(true);
+
+
+  useEffect(() => {
+    if (!loading) {
+      console.log(data)
+      setDefaultData(data);
+      return;
+    }
+  }, [loading])
+  
 
   useEffect(() => {
     wL = wishList;
@@ -78,8 +101,22 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
       localStorage.setItem('wishlist', JSON.stringify(wishList))
       console.log(storedCartItems, storedWishlistItems)
   }
-  }, [])
-  
+  }, []);
+
+  const searchItems = (items) => {
+    let searchTerm = document.getElementById('searchBar').value;
+    searchTerm = searchTerm.toLowerCase();    
+    if (searchTerm.trim() === '' || undefined) {
+      setData(defaultData);
+      console.log(items, defaultData)
+      return;
+    }
+    setData( items.filter(item =>
+      item.category.toLowerCase().includes(searchTerm) || item.title.toLowerCase().includes(searchTerm))
+    )
+    console.log(items)
+  }
+
   if (error) return <p className="mt-40">A network error was encountered</p>
   if (loading || showLoading) return <div className="h-screen">
       <div id='emptyWishlistsBg' className='pt-10 text-center text-black rounded-md ml-auto mr-auto'>
@@ -92,7 +129,12 @@ const Store = ({wishList, setWishList, cart, setCart}) => {
     <div>
       <h1 className='text-6xl font-extrabold text-yellow-400 w-full p-2 bg-gradient-to-r from-black to-white'>
         Store
-        </h1>  
+      </h1>
+      <div id="searchStore" onClick={() => { document.getElementById('searchBar').classList.add('searchBar-active')}} 
+        className="ml-auto p-1 mr-auto cursor-pointer mt-5 bg-gray-600 rounded-3xl w-max pl-6 pr-6">
+          <input id="searchBar" onClick={() => console.log('clicked')} type="text" placeholder="Search" className="w-0 bg-inherit outline-none"/>
+          <SearchIcon id="searchIcon" fontSize="large" className="text-black" onClick={() => searchItems(defaultData)}/>
+      </div>  
       <div id="cardsBg" className="lg:ml-60 lg:mr-60 flex flex-wrap justify-center gap-2 p-5 sm:ml-0 sm:mr-0">
         {data.map((dt) => (
           <Card className="w-72 flex flex-col h-96 drop-shadow-lg" key={dt.id}>

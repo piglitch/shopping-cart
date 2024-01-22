@@ -53,13 +53,9 @@ html, body {
   color: white;
 }
 #total{
-  margin-top: 20px;
-  margin-right: 50px;
-  padding: 20px;
-  width: 70%;
-  max-width: 350px;
+  padding: 45px;
+  width: 650px;
   text-align: center;
-  height: 200px;
   border: 1px solid rgba(126, 126, 126, 0.050);
   border-radius: 5px;
 }
@@ -107,6 +103,22 @@ html, body {
 }
 #categories{
   color: white;
+}
+
+#searchStore{
+  transition: .2s ease-in-out;
+}
+#searchBar{
+  transition: .2s ease-in-out;
+}
+#searchStore:hover{
+  #searchBar{
+    transition: .2s ease-in-out;
+    width: 280px;
+  }
+}
+.searchBar-active{
+  width: 280px;
 }
 /* Add this CSS to your stylesheets */
 

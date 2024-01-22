@@ -78,10 +78,11 @@ const ShoppingCart = ({cart, setCart}) => {
         <div>
          <h1 className='text-6xl font-extrabold text-yellow-400 w-full p-2 bg-gradient-to-r from-black to-white'>
             Cart
-          </h1>        <div className='flex gap-0'>       
-        <div id="cardsBg" className="lg:ml-60 lg:mr-60 flex flex-wrap justify-center gap-2 p-5 sm:ml-0 sm:mr-0">
+          </h1>        
+        <div className='flex'>       
+        <div id="cardsBg" className="sm:ml-60 sm:mr-60 flex flex-wrap sm:justify-center gap-2 p-5">
           {cart.map((dt) => (
-            <Card className="w-72 flex flex-col h-96 drop-shadow-lg" key={dt.id}>
+            <Card className="w-52 sm:w-72 flex flex-col sm:h-96 drop-shadow-lg" key={dt.id}>
               <img
                 className="mt-16 mx-auto block"
                 src={dt.pic}
@@ -178,22 +179,22 @@ const ShoppingCart = ({cart, setCart}) => {
                 <IconButton aria-label="share" style={{color: 'gray'}}>
                   <ShareIcon />
                 </IconButton>
-                <span className='ml-28 text-gray-500'>Qty: </span>
+                <span className='ml-5 sm:ml-28 text-gray-500'>Qty: </span>
                 <span className="ml-1 text-red-500" id={`badge${dt.id}`}>{ cart.find(item => item.id === dt.id)?.qty || '' }</span>
               </CardActions>
             </Card>
           ))}
       </div>
-      <div id='total' className='p-5 bg-slate-100 text-black shadow-lg'>
-        <div className='p-5'>Total: ${Math.round(total)}.00
+      <div id='total' className='mr-10 sm:mr-20 h-max bg-slate-100 text-black shadow-lg'>
+        <div className='p-5 sm:w-full'>Total: ${Math.round(total)}.00
           <br />
-          <SnackbarProvider maxSnack={3}>
-            <button className='mt-10 p-1 border-slate-400 border-2 rounded-md bg-yellow-400' onClick={() => {
-            //  setCart([])
-              //localStorage.setItem('cart', JSON.stringify([]))
-
-            }}><Checkout /></button>
-          </SnackbarProvider>
+          <div>
+            <SnackbarProvider maxSnack={3}>
+              <button className='sm:mt-10 sm:p-1 border-slate-400 border-2 rounded-md bg-yellow-400 text-sm'>
+                <Checkout />
+              </button>
+            </SnackbarProvider>          
+          </div>
         </div>
       </div>
       </div>
