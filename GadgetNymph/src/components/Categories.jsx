@@ -15,9 +15,9 @@ export default function ActiveLastBreadcrumb() {
       className='
           mt-20
           bg-slate-700 p-1 
-          flex sm:justify-around md:justify-center 
+          flex sm:justify-between md:justify-center 
           gap-5 text-white font-thin
-          text-sm lg:text-lg'>
+          text-sm md:text-xl lg:text-xl'>
         <Link className={currentPathname === '/category/electronics' ? 'underline' : 'hover:underline'} to="/category/electronics">
           Electronics
         </Link>            

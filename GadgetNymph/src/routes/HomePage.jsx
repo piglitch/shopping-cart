@@ -135,10 +135,10 @@ const Home = () => {
                 <div className='p-5 text-6xl font-extrabold'>Connect with Us.</div>
                 {/* Add your contact information or contact form here */}
                 <div className='flex gap-20 items-center justify-center mt-20'>
-                    <GitHubIcon className='linkIcons'/>
-                    <InstagramIcon className='linkIcons'/>
-                    <XIcon className='linkIcons'/>
-                    <LinkedInIcon className='linkIcons'/>            
+                    <a href="https://github.com/Piglitch/" target='_blank' rel='noopener noreferrer'><GitHubIcon className='linkIcons'/></a>
+                    <a href="https://www.instagram.com/avi_innit/" target="_blank" rel="noopener noreferrer"><InstagramIcon className='linkIcons'/></a>
+                    <a href="https://twitter.com/glitchcode2205/" target="_blank" rel="noopener noreferrer"><XIcon className='linkIcons'/></a>
+                    <a href="https://www.linkedin.com/in/avi-banerjee" target="_blank" rel="noopener noreferrer"><LinkedInIcon className='linkIcons'/></a> 
                 </div>
             </section>
 
