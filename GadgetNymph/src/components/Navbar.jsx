@@ -132,7 +132,7 @@ function Navbar({ wishList, setWishList, cart, setCart }) {
               </Link>
             </Badge>
             <Badge color="secondary" variant={ cart.length > 0 ? 'dot' : '' }>
-              <Link to="/shoppingcart" className={currentPathname === '/shoppingcart' ? 'cartClicked' : ''}>
+              <Link to="/Cart" className={currentPathname === '/Cart' ? 'cartClicked' : ''}>
                 <ShoppingCartIcon id='cart'/>
               </Link>
             </Badge>
