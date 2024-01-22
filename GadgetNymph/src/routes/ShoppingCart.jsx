@@ -180,7 +180,7 @@ const ShoppingCart = ({cart, setCart}) => {
                 <IconButton aria-label="share" style={{color: 'gray'}}>
                   <ShareIcon />
                 </IconButton>
-                <span className='ml-5 lg:ml-28 text-gray-500'>Qty: </span>
+                <span className='ml-5 lg:ml-18 text-gray-500'>Qty: </span>
                 <span className="ml-1 text-red-500" id={`badge${dt.id}`}>{ cart.find(item => item.id === dt.id)?.qty || '' }</span>
               </CardActions>
             </Card>
