@@ -80,9 +80,9 @@ const ShoppingCart = ({cart, setCart}) => {
             Cart
           </h1>        
         <div className='flex'>       
-        <div id="cardsBg" className="sm:ml-60 sm:mr-60 flex flex-wrap sm:justify-center gap-2 p-5">
+        <div id="cardsBg" className="lg:ml-60 lg:mr-60 flex flex-wrap lg:justify-center gap-2 p-5">
           {cart.map((dt) => (
-            <Card className="w-52 sm:w-72 flex flex-col sm:h-96 drop-shadow-lg" key={dt.id}>
+            <Card className="w-52 lg:w-72 flex flex-col lg:h-96 drop-shadow-lg" key={dt.id}>
               <img
                 className="mt-16 mx-auto block"
                 src={dt.pic}
@@ -90,6 +90,7 @@ const ShoppingCart = ({cart, setCart}) => {
                 width={70}
                 alt={dt.title}
               />
+              {/* change here */}
               <CardHeader
                 className="text-sm"
                 title={
@@ -179,18 +180,18 @@ const ShoppingCart = ({cart, setCart}) => {
                 <IconButton aria-label="share" style={{color: 'gray'}}>
                   <ShareIcon />
                 </IconButton>
-                <span className='ml-5 sm:ml-28 text-gray-500'>Qty: </span>
+                <span className='ml-5 lg:ml-28 text-gray-500'>Qty: </span>
                 <span className="ml-1 text-red-500" id={`badge${dt.id}`}>{ cart.find(item => item.id === dt.id)?.qty || '' }</span>
               </CardActions>
             </Card>
           ))}
       </div>
-      <div id='total' className='mr-10 sm:mr-20 h-max bg-slate-100 text-black shadow-lg'>
-        <div className='p-5 sm:w-full'>Total: ${Math.round(total)}.00
+      <div id='total' className='mr-10 lg:mr-20 h-max bg-slate-100 text-black shadow-lg'>
+        <div className='p-5 lg:w-full'>Total: ${Math.round(total)}.00
           <br />
           <div>
             <SnackbarProvider maxSnack={3}>
-              <button className='sm:mt-10 sm:p-1 border-slate-400 border-2 rounded-md bg-yellow-400 text-sm'>
+              <button className='lg:mt-10 lg:p-1 border-slate-400 border-2 rounded-md bg-yellow-400 text-sm'>
                 <Checkout />
               </button>
             </SnackbarProvider>          
