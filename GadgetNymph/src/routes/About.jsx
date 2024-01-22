@@ -5,6 +5,7 @@ import React from 'react';
 const About = () => {
   return (
     <div className="bg-gray-800 min-h-screen">
+      
       <div className="container mx-auto p-8">
         <h1 className="text-6xl font-bold mb-6 text-pink-600">About Our Shopping Cart App.</h1>
 
